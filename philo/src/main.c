@@ -54,18 +54,33 @@ void	ft_init(int argc, char **argv, t_info	*info)
 	info->t_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		info->n_t_philo_eat = ft_atoi(argv[5]);
-	if (info->n_philo < 2 || info->t_die < 0 || info->t_eat < 0
-		|| info->t_sleep < 0 || info->n_philo > 250)
+	else
+		info->n_t_philo_eat = -1;
+	if (info->n_philo < 0 || info->t_die < 0 || info->t_eat < 0
+		|| info->t_sleep < 0)
 		exit(printf("Wrong inpunt\n"));
 	if (argv[5])
-		if (info->n_t_philo_eat < 0)
+		if (info->n_t_philo_eat < -1 || info->n_t_philo_eat == 0)
 			exit(printf("Wrong inpunt\n"));
+	int	i;
+
+	i = 1;
+	while (i <= info-> n_philo)
+	{
+		if (pthread_mutex_init(&info->philo[i].lock, NULL) != 0)
+			exit(printf("Error in create the mutex\n"));
+		info->philo[i].time_to_die = info->t_die;
+		info->philo[i].time_eat = info->t_eat;
+		info->philo[i].time_sleep = info->t_sleep;
+		info->philo[i].eat_cout = info->n_t_philo_eat;
+		i++;
+	}
 	printf("ok\n");
 }
 
 int	main(int argc, char **argv)
 {
-		t_info	info;
+	t_info	info;
 
 	if (argc != 5 && argc != 6)
 		return (printf("Too many or too few arguments\n"), 0);
