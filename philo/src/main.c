@@ -1,20 +1,20 @@
 #include "../philo.h"
 
-int	ft_check_arguments(char **argu)
+int	ft_check_arguments(char **argv)
 {
 	int	i;
 	int	k;
 
 	i = 1;
 	k = 0;
-	while(argu[i])
+	while(argv[i])
 	{
 		k = 0;
-		if (!argu[i] || !argu[i][k])
+		if (!argv[i] || !argv[i][k])
 			return (0);
-		while (argu[i][k])
+		while (argv[i][k])
 		{
-			if (argu[i][k] <= '0' || argu[i][k] >= '9')
+			if (argv[i][k] < '0' || argv[i][k] > '9')
 				return (0);
 			k++;
 		}
@@ -64,18 +64,17 @@ void	ft_init(int argc, char **argv, t_info	*info)
 			exit(printf("Wrong inpunt\n"));
 	int	i;
 
-	i = 1;
-	while (i <= info-> n_philo)
+	i = 0;
+	info->philo = ft_calloc(sizeof(t_philo *), info->n_philo);
+	while (i < info->n_philo)
 	{
-		if (pthread_mutex_init(&info->philo[i].lock, NULL) != 0)
-			exit(printf("Error in create the mutex\n"));
 		info->philo[i].time_to_die = info->t_die;
 		info->philo[i].time_eat = info->t_eat;
 		info->philo[i].time_sleep = info->t_sleep;
 		info->philo[i].eat_cout = info->n_t_philo_eat;
 		i++;
 	}
-	printf("ok\n");
+	free(info->philo);
 }
 
 int	main(int argc, char **argv)

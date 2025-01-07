@@ -1,9 +1,9 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
-SRCS = ./src/main.c
+SRCS = ./src/main.c ./src/ft_calloc.c
 SRC_DIRS = ./src
 OBJS = ${SRCS:.c=.o}
 
