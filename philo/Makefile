@@ -1,41 +1,40 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
-SRCS = ./src/main.c ./src/ft_calloc.c
-SRC_DIRS = ./src
-OBJS = ${SRCS:.c=.o}
-
-GREEN		=\033[0;32m
-RED			=\033[0;31m
-BLUE		=\033[0;34m
-COLOUR_END	=\033[0m
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+PURPLE = \033[0;35m
+COLOUR_END = \033[0m
 
 OBJ_DIR = ./obj
-OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,${SRCS})
+SRC_DIR = ./src
+MAKEFLAGS += -s
 
-$(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(@D)
-	@$(CC) -g -c $< -o $@;
+INIT = ./src/ft_init.c
+ERROR = ./src/ft_error.c
+MAIN = ./src/main.c ./src/ft_calloc.c
 
-all: $(NAME)
+SRC = $(MAIN) $(ERROR) $(INIT)
+
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(RED)EVERYTHING COMPILE!$(COLOUR_END)"
+	@echo "$(PURPLE)EVERYTHING COMPILED!$(COLOUR_END)"
 
-%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJS)
-	@${RM} -r ${OBJ_DIR}
-	@echo "$(GREEN)EVERYTHING HAS CLEAN!$(COLOUR_END)"
+	@rm -rf $(OBJ_DIR)
+	@echo "$(GREEN)EVERYTHING CLEANED!$(COLOUR_END)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(BLUE)EVERYTHING HAS FCLEAN!$(COLOUR_END)"
+	@echo "$(BLUE)EVERYTHING CLEANED COMPLETELY!$(COLOUR_END)"
 
 re: fclean all
 	@$(MAKE)
