@@ -58,57 +58,92 @@ u_int64_t	ft_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-int	my_usleep(u_int64_t time)
-{
-	u_int64_t	start;
-
-	start = ft_time();
-	while ((ft_time() - start) < time)
-		usleep(time / 10);
-	return (0);
-}
-
 void	print_info(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->info->write);
+	if (philo->info->dead != 0)
+	{
+		pthread_mutex_unlock(&philo->info->write);
+		return ;
+	}
 	printf("%ld %i %s\n", (ft_time() - philo->info->t_start), philo->id, str);
 	pthread_mutex_unlock(&philo->info->write);
 }
 
-// (philo->id + 1) % philo->info->n_philo, (philo->id + philo->info->n_philo - 1) % philo->info->n_philo); primo è sinistra secondo è destra
-void *routine(void *philos)
+void	eating(t_philo *philo)
 {
-	t_philo *philo;
-	philo = (t_philo *)philos;
-	
 	pthread_mutex_lock(&philo->info->fork[(philo->id + philo->info->n_philo - 1) % philo->info->n_philo]);
-	print_info(philos, "has taken a fork");
+	print_info(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->info->fork[(philo->id + 1) % philo->info->n_philo]);
-	print_info(philos, "has taken a fork");
+	print_info(philo, "has taken a fork");
+	philo->is_eating = 1;
 	philo->eat_cout++;
-	print_info(philos, "is eating");
+	print_info(philo, "is eating");
 	philo->time_to_die = philo->info->t_die + ft_time();
-	my_usleep(philo->info->t_eat);
+	usleep(philo->info->t_eat);
 	philo->time_last_meal = ft_time();
+	philo->is_eating = 0;
 	pthread_mutex_unlock(&philo->info->fork[(philo->id + 1) % philo->info->n_philo]);
 	pthread_mutex_unlock(&philo->info->fork[(philo->id + philo->info->n_philo - 1) % philo->info->n_philo]);
 	print_info(philo, "is sleeping");
-	my_usleep(philo->time_sleep);
-
-	return ((void *)0);
+	usleep(philo->time_sleep);
 }
 
-void *miller_routine() {
-    // t_info *infos;
-	
-    // infos = (t_info *)info;
-    // pthread_mutex_lock(&infos->write);
-    // pthread_mutex_lock(&infos->dead_mutex);
-    // printf("Miller dead = %d\n", infos->dead);
-    // pthread_mutex_unlock(&infos->dead_mutex);
-    // pthread_mutex_unlock(&infos->write);
+void	thinking(t_philo *philo)
+{
+	print_info(philo, "is thinking");
+}
 
-    return ((void *)0);
+void	*routine(void *philos)
+{
+	t_philo *philo;
+	philo = (t_philo *)philos;
+
+	if (philo->info->n_t_philo_eat != 0)
+	{
+		while (philo->eat_cout < philo->info->n_t_philo_eat && philo->info->dead == 0)
+		{
+			eating(philo);
+			thinking(philo);
+		}
+	} 
+	else 
+	{
+		while (philo->info->dead == 0)
+		{
+			eating(philo);
+			thinking(philo);
+		}
+	}
+	return ((void *)0);
+}
+	
+void *miller_routine(void *info)
+{
+	t_info *infos;
+	int		i;
+	
+	infos = (t_info *)info;
+	i = 0;
+	usleep(500);
+	while (1)
+	{
+		if (infos->philo[i].eat_cout == infos->n_t_philo_eat)
+			return ((void *)0);
+		if ((ft_time() >= infos->philo[i].time_to_die) && infos->philo[i].is_eating != 1)
+		{
+			infos->dead++;
+			pthread_mutex_lock(&infos->write);
+			printf("%ld %i %s\n", (ft_time()
+						- infos->t_start), infos->philo[i].id, "died");
+			pthread_mutex_unlock(&infos->write);
+			return ((void *)0);
+		}
+		if (i == infos->n_philo - 1)
+			i = 0;
+		else
+			i++;
+	}
 }
 
 void ft_destroy_philo_mutex(t_info *info)
@@ -122,6 +157,7 @@ void ft_destroy_philo_mutex(t_info *info)
 		pthread_join(info->philo_thread[i], NULL);
 		i++;
 	}
+	printf("\nsono qui\n");
 	i = 0;
 	while (i < info->n_philo)
 	{
@@ -130,7 +166,7 @@ void ft_destroy_philo_mutex(t_info *info)
 	}
 	free(info->fork);
 	pthread_mutex_destroy(&info->write);
-	pthread_mutex_destroy(&info->dead_mutex);
+	pthread_mutex_destroy(&info->lock);
 	free(info->philo);
 	free(info->philo_thread);
 }
@@ -149,25 +185,25 @@ void	ft_init_philo_mutex(t_info *info)
 			err_exit("Error with pthread_mutex_init");
 	if (pthread_mutex_init(&info->write, NULL) != 0)
 		err_exit("Error with pthread_mutex_init");
-	if (pthread_mutex_init(&info->dead_mutex, NULL) != 0)
-		err_exit("Error with pthread_mutex_init dead_mutex");
+	if (pthread_mutex_init(&info->lock, NULL) != 0)
+		err_exit("Error with pthread_mutex_init lock");
 	i = -1;
 	info->t_start = ft_time();
 	while (++i < info->n_philo)
 	{
+		usleep(100);
 		info->philo[i].info = info;
 		info->philo[i].id = i;
 		info->philo[i].time_last_meal = ft_time();
-		info->philo[i].time_to_die = info->t_die;
+		info->philo[i].time_to_die = info->t_die + ft_time();
 		info->philo[i].time_eat = info->t_eat;
 		info->philo[i].time_sleep = info->t_sleep;
 		info->philo[i].eat_cout = 0;
 		if (pthread_create(&info->philo_thread[i], NULL, &routine, &info->philo[i]) != 0)
 			err_exit("Error with pthread_create");
 	}
-	// if (pthread_create(&info->miller, NULL, &miller_routine, info) != 0)
-	// 	err_exit("Error with pthread_create");
-	ft_destroy_philo_mutex(info);
+	if (pthread_create(&info->miller, NULL, &miller_routine, info) != 0)
+		err_exit("Error with pthread_create");
 }
 
 void	ft_init_info(char **argv, t_info *info)
@@ -179,6 +215,8 @@ void	ft_init_info(char **argv, t_info *info)
 	info->dead = 0;
 	if (argv[5])
 		info->n_t_philo_eat = ft_atoi(argv[5]);
+	else
+		info->n_t_philo_eat = 0;
 	if (info->n_philo < 1 || info->n_philo > 250)
 		err_exit(("Wrong inpunt"));
 	if (argv[5])

@@ -13,6 +13,7 @@ typedef struct s_philo
 {
 	struct			s_info *info;
 	int				id;
+	int				is_eating;
 	int				eat_cout;
 	u_int64_t		time_to_die;
 	u_int64_t		time_eat;
@@ -34,7 +35,7 @@ typedef struct s_info
 	pthread_t		miller;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	write;
-	pthread_mutex_t dead_mutex;
+	pthread_mutex_t	lock;
 }				t_info;
 
 int		main(int argc, char **argv);
@@ -52,5 +53,7 @@ void	ft_init_philo_mutex(t_info *info);
 
 // ft_error.c
 void	err_exit(char *err);
+
+void ft_destroy_philo_mutex(t_info *info);
 
 #endif

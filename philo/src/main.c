@@ -10,5 +10,6 @@ int	main(int argc, char **argv)
 		err_exit("Wrong inpunt");
 	ft_init_info(argv, &info);
 	ft_init_philo_mutex(&info);
+	ft_destroy_philo_mutex(&info);
 	return (1);
 }
