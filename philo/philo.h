@@ -18,7 +18,6 @@ typedef struct s_philo
 	u_int64_t		time_to_die;
 	u_int64_t		time_eat;
 	u_int64_t		time_sleep;
-	u_int64_t		time_last_meal;
 }				t_philo;
 
 typedef struct s_info
@@ -54,6 +53,8 @@ void	ft_init_philo_mutex(t_info *info);
 // ft_error.c
 void	err_exit(char *err);
 
-void ft_destroy_philo_mutex(t_info *info);
+void	ft_destroy_philo_mutex(t_info *info);
+void	one_philo(t_info *info);
+void	int_thread(t_info *info);
 
 #endif
