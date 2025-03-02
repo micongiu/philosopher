@@ -14,9 +14,12 @@ MAKEFLAGS += -s
 
 INIT = ./src/ft_init.c
 ERROR = ./src/ft_error.c
+UTILITS = ./src/ft_utilits.c
+ACTIONS = ./src/ft_actions.c
+ROUTINE = ./src/ft_routine.c
 MAIN = ./src/main.c ./src/ft_calloc.c
 
-SRC = $(MAIN) $(ERROR) $(INIT)
+SRC = $(MAIN) $(ERROR) $(INIT) $(ROUTINE) $(ACTIONS) $(UTILITS)
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
