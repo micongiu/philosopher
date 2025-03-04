@@ -6,7 +6,7 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:31 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 14:44:42 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:52:52 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	int_thread(t_info *info)
 		if (pthread_create(&info->philo_thread[i], NULL,
 				&routine, &info->philo[i]) != 0)
 			err_exit("Error with pthread_create");
-		usleep(1000);
 		i++;
 	}
 	if (pthread_create(&info->miller, NULL, &miller_routine, info) != 0)
