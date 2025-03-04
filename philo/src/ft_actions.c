@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:31:53 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:32:08 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:35:04 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 void	whick_forks(t_philo *philo)
-{
+{	
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->info->fork[(philo->id

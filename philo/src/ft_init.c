@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:31 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:32:33 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:37:46 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	ft_init_philo(t_info *info)
 
 	i = 0;
 	info->t_start = ft_time();
-	while (i < info->n_philo)
+	while (++i < info->n_philo)
 	{
+		usleep(100);
 		info->philo[i].info = info;
 		info->philo[i].id = i;
+		info->philo[i].time_last_meal = ft_time();
 		info->philo[i].time_to_die = info->t_die + ft_time();
 		info->philo[i].time_eat = info->t_eat;
 		info->philo[i].time_sleep = info->t_sleep;
@@ -106,7 +108,7 @@ void	ft_init_info(char **argv, t_info *info)
 	if (argv[5])
 		info->n_t_philo_eat = ft_atoi(argv[5]);
 	else
-		info->n_t_philo_eat = -1;
+		info->n_t_philo_eat = 0;
 	if (info->n_philo < 1 || info->n_philo > 250)
 		err_exit(("Wrong inpunt"));
 	if (argv[5])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:58 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:32:59 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:37:29 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philo
 	u_int64_t		time_to_die;
 	u_int64_t		time_eat;
 	u_int64_t		time_sleep;
+	u_int64_t		time_last_meal;
 }				t_philo;
 
 typedef struct s_info
