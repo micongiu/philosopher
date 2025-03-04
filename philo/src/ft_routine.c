@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_routine.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:38 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:32:39 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:42:39 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	*routine(void *philos)
 		{
 			eating(philo);
 			thinking(philo);
+			if (philo->info->n_philo == 1)
+				return ((void *)0);
 		}
 	}
 	else
@@ -33,7 +35,7 @@ void	*routine(void *philos)
 			eating(philo);
 			thinking(philo);
 			if (philo->info->n_philo == 1)
-				return (NULL);
+				return ((void *)0);
 		}
 	}
 	return ((void *)0);
@@ -45,7 +47,6 @@ void	*miller_routine(void *info)
 	int		i;
 
 	infos = (t_info *)info;
-	usleep(500);
 	i = 0;
 	while (1)
 	{

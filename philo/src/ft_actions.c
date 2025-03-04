@@ -6,14 +6,14 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:31:53 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:35:04 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:50:26 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 void	whick_forks(t_philo *philo)
-{	
+{
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->info->fork[(philo->id
@@ -49,7 +49,7 @@ void	eating(t_philo *philo)
 	philo->eat_cout++;
 	print_info(philo, "is eating");
 	philo->time_to_die = philo->info->t_die + ft_time();
-	usleep(philo->info->t_eat * 1000);
+	usleep(philo->info->t_eat * 100);
 	philo->is_eating = 0;
 	pthread_mutex_unlock(&philo->info->lock);
 	pthread_mutex_unlock(&philo->info->fork[(philo->id + 1)
@@ -57,7 +57,7 @@ void	eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->fork[(philo->id
 			+ philo->info->n_philo - 1) % philo->info->n_philo]);
 	print_info(philo, "is sleeping");
-	usleep(philo->time_sleep * 1000);
+	usleep(philo->time_sleep * 100);
 }
 
 void	thinking(t_philo *philo)
