@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_routine.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 12:32:38 by micongiu          #+#    #+#             */
+/*   Updated: 2025/03/04 12:32:39 by micongiu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
 void	*routine(void *philos)
@@ -20,6 +32,8 @@ void	*routine(void *philos)
 		{
 			eating(philo);
 			thinking(philo);
+			if (philo->info->n_philo == 1)
+				return (NULL);
 		}
 	}
 	return ((void *)0);
@@ -31,8 +45,8 @@ void	*miller_routine(void *info)
 	int		i;
 
 	infos = (t_info *)info;
-	i = 0;
 	usleep(500);
+	i = 0;
 	while (1)
 	{
 		if (infos->philo[i].eat_cout == infos->n_t_philo_eat)
@@ -45,7 +59,7 @@ void	*miller_routine(void *info)
 			printf("%ld %i %s\n", (ft_time()
 					- infos->t_start), infos->philo[i].id, "died");
 			pthread_mutex_unlock(&infos->write);
-			return (infos->dead++, (void *)0);
+			return ((void *)0);
 		}
 		if (i == infos->n_philo - 1)
 			i = 0;

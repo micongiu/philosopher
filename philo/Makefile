@@ -1,7 +1,7 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -gdwarf-4
 
 GREEN = \033[0;32m
 BLUE = \033[0;34m

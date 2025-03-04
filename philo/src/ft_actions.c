@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_actions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 12:31:53 by micongiu          #+#    #+#             */
+/*   Updated: 2025/03/04 12:32:08 by micongiu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
 void	whick_forks(t_philo *philo)
@@ -24,6 +36,13 @@ void	whick_forks(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
+	if (philo->info->n_philo == 1)
+	{
+		pthread_mutex_lock(&philo->info->fork[0]);
+		print_info(philo, "has taken a fork");
+		pthread_mutex_unlock(&philo->info->fork[0]);
+		return ;
+	}
 	whick_forks(philo);
 	pthread_mutex_lock(&philo->info->lock);
 	philo->is_eating = 1;
@@ -43,5 +62,7 @@ void	eating(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
+	if (philo->info->n_philo == 1)
+		return ;
 	print_info(philo, "is thinking");
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_init.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 12:32:31 by micongiu          #+#    #+#             */
+/*   Updated: 2025/03/04 12:32:33 by micongiu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
 void	ft_init_philo(t_info *info)
@@ -57,7 +69,7 @@ void	int_thread(t_info *info)
 		if (pthread_create(&info->philo_thread[i], NULL,
 				&routine, &info->philo[i]) != 0)
 			err_exit("Error with pthread_create");
-		usleep(100);
+		usleep(1000);
 		i++;
 	}
 	if (pthread_create(&info->miller, NULL, &miller_routine, info) != 0)
