@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utilits.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:44 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:32:46 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:12:19 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ void	print_info(t_philo *philo, char *str)
 		pthread_mutex_unlock(&philo->info->write);
 		return ;
 	}
-	printf("%ld %i %s\n", (ft_time() - philo->info->t_start), philo->id, str);
+	printf("%ld %i %s\n", (ft_time() - philo->info->t_start), (philo->id + 1), str);
 	pthread_mutex_unlock(&philo->info->write);
 }

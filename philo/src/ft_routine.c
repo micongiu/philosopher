@@ -6,7 +6,7 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:38 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 14:52:37 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:16:11 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*miller_routine(void *info)
 			infos->dead++;
 			pthread_mutex_lock(&infos->write);
 			printf("%ld %i %s\n", (ft_time()
-					- infos->t_start), infos->philo[i].id, "died");
+					- infos->t_start), (infos->philo[i].id + 1), "died");
 			pthread_mutex_unlock(&infos->write);
 			return ((void *)0);
 		}
