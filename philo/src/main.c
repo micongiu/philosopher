@@ -20,11 +20,14 @@ void	ft_destroy_philo_mutex(t_info *info)
 	while (i < info->n_philo)
 	{
 		pthread_mutex_destroy(&info->fork[i]);
+		pthread_mutex_destroy(&info->is_eating_mutex[i]);
+		pthread_mutex_destroy(&info->is_dead_mutex[i]);
 		i++;
 	}
 	free(info->fork);
+	free(info->is_dead_mutex);
+	free(info->is_eating_mutex);
 	pthread_mutex_destroy(&info->write);
-	pthread_mutex_destroy(&info->lock);
 	free(info->philo);
 	free(info->philo_thread);
 }

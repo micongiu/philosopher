@@ -31,6 +31,8 @@ typedef struct s_philo
 	u_int64_t		time_eat;
 	u_int64_t		time_sleep;
 	u_int64_t		time_last_meal;
+	pthread_mutex_t	is_eating_mutex;
+	pthread_mutex_t	is_dead_mutex;
 }				t_philo;
 
 typedef struct s_info
@@ -47,7 +49,8 @@ typedef struct s_info
 	pthread_t		miller;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	write;
-	pthread_mutex_t	lock;
+	pthread_mutex_t	*is_eating_mutex;
+	pthread_mutex_t	*is_dead_mutex;
 }				t_info;
 
 int			main(int argc, char **argv);

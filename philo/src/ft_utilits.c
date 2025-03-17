@@ -73,11 +73,14 @@ u_int64_t	ft_time(void)
 void	print_info(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->info->write);
+	pthread_mutex_lock(&philo->is_dead_mutex);
 	if (philo->info->dead != 0)
 	{
+		pthread_mutex_unlock(&philo->is_dead_mutex);
 		pthread_mutex_unlock(&philo->info->write);
 		return ;
 	}
 	printf("%ld %i %s\n", (ft_time() - philo->info->t_start), (philo->id + 1), str);
 	pthread_mutex_unlock(&philo->info->write);
+	pthread_mutex_unlock(&philo->is_dead_mutex);
 }
