@@ -6,7 +6,7 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:58 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:37:29 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:23:32 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_philo
 	u_int64_t		time_sleep;
 	u_int64_t		time_last_meal;
 	pthread_mutex_t	is_eating_mutex;
-	pthread_mutex_t	is_dead_mutex;
 }				t_philo;
 
 typedef struct s_info
@@ -50,7 +49,7 @@ typedef struct s_info
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*is_eating_mutex;
-	pthread_mutex_t	*is_dead_mutex;
+	pthread_mutex_t	is_dead_mutex;
 }				t_info;
 
 int			main(int argc, char **argv);

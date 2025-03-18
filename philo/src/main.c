@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: micongiu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:33:13 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 12:33:14 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:24:36 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ void	ft_destroy_philo_mutex(t_info *info)
 	{
 		pthread_mutex_destroy(&info->fork[i]);
 		pthread_mutex_destroy(&info->is_eating_mutex[i]);
-		pthread_mutex_destroy(&info->is_dead_mutex[i]);
 		i++;
 	}
 	free(info->fork);
-	free(info->is_dead_mutex);
 	free(info->is_eating_mutex);
+	pthread_mutex_destroy(&info->is_dead_mutex);
 	pthread_mutex_destroy(&info->write);
 	free(info->philo);
 	free(info->philo_thread);

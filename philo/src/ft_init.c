@@ -6,7 +6,7 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:31 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/04 14:52:52 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:28:05 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	ft_init_philo(t_info *info)
 		info->philo[i].time_sleep = info->t_sleep;
 		info->philo[i].eat_cout = 0;
 		info->philo[i].is_eating_mutex = info->is_eating_mutex[i];
-		info->philo[i].is_dead_mutex = info->is_dead_mutex[i];
 		i++;
 	}
 	if (info->n_philo == 1)
@@ -50,10 +49,8 @@ void	ft_init_mutex(t_info *info)
 			info->n_philo);
 	info->fork = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t),
 			info->n_philo);
-	info->is_eating_mutex = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t),
-			info->n_philo);
-	info->is_dead_mutex = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t),
-			info->n_philo);
+	info->is_eating_mutex = (pthread_mutex_t *)
+		ft_calloc(sizeof(pthread_mutex_t), info->n_philo);
 	info->philo_thread = (pthread_t *)ft_calloc(sizeof(pthread_t),
 			info->n_philo);
 	while (i < info->n_philo)
@@ -62,10 +59,10 @@ void	ft_init_mutex(t_info *info)
 			err_exit("Error with pthread_mutex_init");
 		if (pthread_mutex_init(&info->is_eating_mutex[i], NULL) != 0)
 			err_exit("Error with pthread_mutex_init");
-		if (pthread_mutex_init(&info->is_dead_mutex[i], NULL) != 0)
-			err_exit("Error with pthread_mutex_init");
 		i++;
 	}
+	if (pthread_mutex_init(&info->is_dead_mutex, NULL) != 0)
+		err_exit("Error with pthread_mutex_init");
 	ft_init_philo(info);
 }
 
