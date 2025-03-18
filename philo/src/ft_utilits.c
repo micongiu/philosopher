@@ -6,7 +6,7 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:44 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/18 15:07:10 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:19:17 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	print_info(t_philo *philo, char *str)
 		pthread_mutex_unlock(&philo->info->write);
 		return ;
 	}
+	pthread_mutex_unlock(&philo->info->is_dead_mutex);
 	printf("%ld %i %s\n", (ft_time() - philo->info->t_start),
 		(philo->id + 1), str);
 	pthread_mutex_unlock(&philo->info->write);
-	pthread_mutex_unlock(&philo->info->is_dead_mutex);
 }

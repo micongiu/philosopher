@@ -6,7 +6,7 @@
 /*   By: micongiu <micongiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 12:32:38 by micongiu          #+#    #+#             */
-/*   Updated: 2025/03/18 15:56:27 by micongiu         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:42:24 by micongiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	*routine(void *philos)
 	t_philo	*philo;
 
 	philo = (t_philo *)philos;
+	if (philo->id % 2 == 0)
+		usleep(500);
 	if (philo->info->n_t_philo_eat > 0)
 		routine_eat_count(philo);
 	else
@@ -92,7 +94,7 @@ void	*miller_routine(void *infos)
 			pthread_mutex_unlock(&info->philo[i].is_eating_mutex);
 			return ((void *)0);
 		}
-		if ((ft_time() >= info->philo[i].time_to_die))
+		if ((ft_time() > info->philo[i].time_to_die))
 		{
 			miller_dead(info, i);
 			return ((void *)0);
