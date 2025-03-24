@@ -19,7 +19,6 @@ void	ft_init_philo(t_info *info)
 	i = 0;
 	if (pthread_mutex_init(&info->write, NULL) != 0)
 		err_exit("Error with pthread_mutex_init");
-	info->t_start = ft_time();
 	while (i < info->n_philo)
 	{
 		usleep(100);
@@ -31,8 +30,11 @@ void	ft_init_philo(t_info *info)
 		info->philo[i].time_sleep = info->t_sleep;
 		info->philo[i].eat_cout = 0;
 		info->philo[i].is_eating_mutex = info->is_eating_mutex[i];
+		info->philo[i].left_fork = &info->fork[i];
+		info->philo[i].right_fork = &info->fork[((i + 1) % info->n_philo)];
 		i++;
 	}
+	info->t_start = ft_time();
 	if (info->n_philo == 1)
 		one_philo(info);
 	else

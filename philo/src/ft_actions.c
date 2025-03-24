@@ -21,10 +21,9 @@ void	eating(t_philo *philo)
 		pthread_mutex_unlock(&philo->info->fork[0]);
 		return ;
 	}
-	pthread_mutex_lock(&philo->info->fork[(philo->id)]);
+	pthread_mutex_lock(philo->left_fork);
 	print_info(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->info->fork[((philo->id + 1)
-			% philo->info->n_philo)]);
+	pthread_mutex_lock(philo->right_fork);
 	pthread_mutex_lock(&philo->is_eating_mutex);
 	print_info(philo, "has taken a fork");
 	philo->eat_cout++;
@@ -34,9 +33,8 @@ void	eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->is_eating_mutex);
 	usleep(philo->info->t_eat * 1000);
 	philo->is_eating = 0;
-	pthread_mutex_unlock(&philo->info->fork[(philo->id)]);
-	pthread_mutex_unlock(&philo->info->fork[((philo->id + 1)
-			% philo->info->n_philo)]);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
 void	thinking(t_philo *philo)

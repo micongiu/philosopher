@@ -32,6 +32,8 @@ typedef struct s_philo
 	u_int64_t		time_sleep;
 	u_int64_t		time_last_meal;
 	pthread_mutex_t	is_eating_mutex;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*left_fork;
 }				t_philo;
 
 typedef struct s_info
